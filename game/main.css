@@ -6,6 +6,22 @@ body {
   padding: 0%;
 }
 
+#neondebug {
+  display: block;
+  background: rgba(20, 20, 20, 0.5);
+  color: white;
+  position: absolute;
+  margin: 5px;
+  padding: 5px;
+  top: -5px;
+  left: -5px;
+  width: 120px;
+  height: 60px;
+  font-family: monospace;
+  font-size: 14px;
+  z-index: 99;
+}
+
 #loadcontrols {
   display: block;
   background: rgba(20, 20, 20, 0.5);
@@ -13,7 +29,7 @@ body {
   text-align: center;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 999;
 }
 

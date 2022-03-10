@@ -2,6 +2,7 @@
 // ==============================================
 // Imports
 import { DirectionalLight, AmbientLight, FogExp2, PlaneGeometry, BoxGeometry, Mesh, Vector3 } from '../../engine/three/three.module.js'
+import { Water } from '../../engine/materials/Water.js'
 import { textures, materials, models } from '../../engine/neon/renderutils.js'
 
 // Constants
@@ -23,7 +24,7 @@ class BaseWorld {
 
     let amblight = new AmbientLight( 0xffffff, 0.75 ); // Ambience is key
     arealoader.addObject( amblight );
-
+    
     // Setup Skybox
     let sunGeometry = new PlaneGeometry(60, 60);
     let sun = new Mesh(sunGeometry, materials[2]);

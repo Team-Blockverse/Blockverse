@@ -2,29 +2,30 @@
 "use strict";
 
 // ThreeJS
-import * as THREE from '../engine/three/three.module.js'
+import { Scene, PerspectiveCamera, WebGLRenderer, sRGBEncoding, ACESFilmicToneMapping, MeshBasicMaterial, DoubleSide} from '../engine/three/three.module.js'
 
 // NEON Game Engine Tools
 import { RenderUtils, textures, materials, models } from '../engine/neon/renderutils.js'
+import { createSkybox } from '../engine/neon/skybox.js'
+import { Debugger } from '../engine/neon/debug.js'
 import { AreaLoader } from '../engine/neon/arealoader.js'
 import { Controls } from '../engine/neon/controlutils.js'
 import { BaseWorld } from './areas/baseworld.js'
-import { createSkybox } from '../engine/neon/skybox.js'
 
 // Constants/Variables
 const halfPI = Math.PI / 2; // What kind of person would change this?
-const debugMode = false; // Is Debug Mode Enabled
 
 // ThreeJS Scene Setup
 const primaryCanvas = document.getElementById("primary");
 const offscreenCanvas = document.getElementById("offscreen");
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const scene = new Scene();
+const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 // WebGL Renderer Setup
-const renderer = new THREE.WebGLRenderer({ canvas: primaryCanvas });
-renderer.outputEncoding = THREE.sRGBEncoding; // This fixes a gradient issue. WTF?
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const renderer = new WebGLRenderer({ canvas: primaryCanvas });
+renderer.debug.checkShaderErrors = false; // Speed Gain
+renderer.outputEncoding = sRGBEncoding; // This fixes a gradient issue. WTF?
+renderer.toneMapping = ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.25;
 renderer.gamma = 2.2;
 renderer.physicallyCorrectLights = true; // Keep this enabled or else things will quickly break.
@@ -50,10 +51,19 @@ RenderUtils.loadTexture('../assets/textures/bricks/base.png', 1);
 RenderUtils.loadTexture('../assets/textures/bricks/normal.png', 1);
 RenderUtils.loadTexture('../assets/textures/bricks/ao.png', 1);
 
+// Water (9)
+RenderUtils.loadTexture('../assets/textures/water/normal.jpg', 1);
+
 // Our Materials
 RenderUtils.createMaterial('phong', textures[3], textures[4], textures[5]); // Grass
 RenderUtils.createMaterial('phong', textures[6], textures[7], textures[8]); // Brick
-materials.push(new THREE.MeshBasicMaterial({ transparent: true, map: textures[1], side: THREE.DoubleSide, fog: false})); // The Literal Sun
+materials.push(new MeshBasicMaterial({ transparent: true, map: textures[1], side: DoubleSide, fog: false})); // The Literal Sun
+materials.push({ textureWidth: 512, textureHeight: 512, waterNormals: textures[9], sunColor: 0xffffff, waterColor: 0x001e0f, distortionScale: 3.7}); // Water Properties
 
 // Load Base World
 const world = new BaseWorld(scene, renderer, camera, areaLoader, controls); // Base World (Yeet)
+
+// Debugger (Very Cool!)
+const debug = new Debugger(renderer);
+
+setInterval(debug.update, 1000); // Load Debug Tool
