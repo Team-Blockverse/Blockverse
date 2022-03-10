@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 0%;
+  padding: 0%;
+}
+
+#loadcontrols {
+  display: block;
+  background: rgba(20, 20, 20, 0.5);
+  color: white;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+#primary {
+  position: absolute;
+  z-index: 2;
+}
+
+#offscreen {
+  position: absolute;
+  z-index: -1;
+}
