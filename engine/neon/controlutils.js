@@ -1,9 +1,9 @@
 // Internal Imports
-import { Vector3 } from '../three/three.module.js'
+import { Vector3, Quaternion } from '../three/three.module.js'
 
 // Internal Things
 const prejoin = document.getElementById( 'loadcontrols' );
-const position = new Vector3(0, 0, 6); // Player Position
+const position = new Vector3(0, 0, 2); // Player Position
 const lerpSmoothing = 0.15; // Smoothing amount used in lerp functions
 let gcamera; // Camera
 let left, right, front, backward = false; // Base 4 Directions
@@ -26,7 +26,7 @@ class Controls {
 
   doControlsTick() {
     if(running) {
-      currSpeed = 0.2;
+      currSpeed = 0.15;
     } else {
       currSpeed = 0.1;
     } // Initial Speed Check
@@ -53,6 +53,10 @@ class Controls {
   doObjectPositionTick(object, ox, oy, oz) {
     object.position.set(ox + position.x, oy + position.y, oz + position.z); // We don't save variables lol
   } // Makes an objects position lerp with the camera (To-Do: Find the sun)
+
+  position() {
+    return position;
+  }
   
   // Internal Key Managers
   static #onKeyDown(evt) {

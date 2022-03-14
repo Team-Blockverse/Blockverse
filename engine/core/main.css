@@ -1,3 +1,4 @@
+/* Global Rules*/
 body {
   font-family: sans-serif;
   min-height: 100vh;
@@ -6,9 +7,34 @@ body {
   padding: 0%;
 }
 
+/* Class Based CSS Rules*/
+.consolemsg {
+  position: absolute;
+  margin-left: 5px;
+  left: -5px;
+  width: 30%;
+  height: 20px;
+  margin-top: 70vh;
+  font-size: 14px;
+  user-select: none;
+  color: white;
+  background: rgba(20, 20, 20, 0.6);
+  z-index: 49; /* Below Neon Debug, Above Display */
+} /* Used with Console (engine/core/console.js) */
+
+.yellow {
+  color: yellow;
+}
+
+.red {
+  color: red;
+}
+
+/* ID Based CSS Rules*/
 #neondebug {
   display: block;
   background: rgba(20, 20, 20, 0.5);
+  user-select: none;
   color: white;
   position: absolute;
   margin: 5px;

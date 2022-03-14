@@ -11,7 +11,7 @@ const modelLoader = new GLTFLoader(); // Load Models!
 // Neon Variables
 let textures = []; // Texture Array
 let materials = []; // Material Array
-let models = [];
+let models = []; // Models Array
 let mvRenderUtils;
 
 // RenderUtils Core
@@ -44,6 +44,15 @@ class RenderUtils {
   static loadModel(path) {
     models.push(modelLoader.load(path));
   } // Loads a model
+
+  static enableShadows(scene) {
+    scene.traverse( function( child ) { 
+      if ( child.isMesh ) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  } // Enables Shadows on the whole scene
 }
 
 // Exports

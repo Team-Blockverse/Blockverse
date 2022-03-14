@@ -2,18 +2,20 @@
 "use strict";
 
 // ThreeJS
-import { Scene, PerspectiveCamera, WebGLRenderer, sRGBEncoding, ACESFilmicToneMapping, MeshBasicMaterial, DoubleSide} from '../engine/three/three.module.js'
+import { Scene, PerspectiveCamera, WebGLRenderer, sRGBEncoding, ACESFilmicToneMapping, PCFSoftShadowMap, PCFShadowMap, BasicShadowMap, MeshBasicMaterial, DoubleSide} from '../engine/three/three.module.js'
 
 // NEON Game Engine Tools
 import { RenderUtils, textures, materials, models } from '../engine/neon/renderutils.js'
 import { createSkybox } from '../engine/neon/skybox.js'
-import { Debugger } from '../engine/neon/debug.js'
+import { Debugger } from '../engine/core/debug.js'
+import { Console } from '../engine/core/console.js'
 import { AreaLoader } from '../engine/neon/arealoader.js'
 import { Controls } from '../engine/neon/controlutils.js'
 import { BaseWorld } from './areas/baseworld.js'
 
 // Constants/Variables
 const halfPI = Math.PI / 2; // What kind of person would change this?
+let defaultMaterial = 'standard';
 
 // ThreeJS Scene Setup
 const primaryCanvas = document.getElementById("primary");
@@ -29,12 +31,15 @@ renderer.toneMapping = ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.25;
 renderer.gamma = 2.2;
 renderer.physicallyCorrectLights = true; // Keep this enabled or else things will quickly break.
+renderer.shadowMap.enabled = true; 
+renderer.shadowMap.type = PCFSoftShadowMap; // VSM Shadows break PBR. WTF?
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 // Setup NEON Engine
 const controls = new Controls(camera);
 const areaLoader = new AreaLoader(camera, scene, renderer); // Provide Objects
+console = Console; // Overriding built-ins is fun.
 
 // Skybox (0 - 2)
 RenderUtils.loadTexture(createSkybox(offscreenCanvas), 1); // Skybox won't load unless I do this weird thing.
@@ -55,8 +60,8 @@ RenderUtils.loadTexture('../assets/textures/bricks/ao.png', 1);
 RenderUtils.loadTexture('../assets/textures/water/normal.jpg', 1);
 
 // Our Materials
-RenderUtils.createMaterial('phong', textures[3], textures[4], textures[5]); // Grass
-RenderUtils.createMaterial('phong', textures[6], textures[7], textures[8]); // Brick
+RenderUtils.createMaterial(defaultMaterial, textures[3], textures[4], textures[5]); // Grass
+RenderUtils.createMaterial(defaultMaterial, textures[6], textures[7], textures[8]); // Brick
 materials.push(new MeshBasicMaterial({ transparent: true, map: textures[1], side: DoubleSide, fog: false})); // The Literal Sun
 materials.push({ textureWidth: 512, textureHeight: 512, waterNormals: textures[9], sunColor: 0xffffff, waterColor: 0x001e0f, distortionScale: 3.7}); // Water Properties
 
