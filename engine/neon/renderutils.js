@@ -18,29 +18,46 @@ let mvRenderUtils;
 class RenderUtils {
   // Creation/Loading Tools
   static createMaterial(type, map, normalMap, aoMap) {
-    if (type === 'phong') {
-      materials.push(new THREE.MeshPhongMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
-    } else if (type === 'lambert') {
-      materials.push(new THREE.MeshLambertMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
-    } else if (type === 'standard') {
-      materials.push(new THREE.MeshStandardMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
-    } else if (type === 'physical') {
-      materials.push(new THREE.MeshPhysicalMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
-    } else {
-      throw "Invalid Material Defined. (RenderUtils @ createMaterial)";
+    switch (type) {
+      case 'basic':
+        materials.push(new THREE.MeshBasicMaterial( { map: map, normalMap: normalMap, aoMap: aoMap}));
+        break;
+        
+      case 'lambert':
+        materials.push(new THREE.MeshLambertMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
+        break;
+        
+      case 'phong':
+       materials.push(new THREE.MeshPhongMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
+        break;
+
+      case 'standard':
+        materials.push(new THREE.MeshStandardMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
+        break;
+
+      case 'physical':
+        materials.push(new THREE.MeshPhysicalMaterial( { map: map, normalMap: normalMap, aoMap: aoMap } ));
+        break;
+
+      default:
+        console.error('Invalid Material Defined. (@ createMaterial)');
+        break;
     }
   } // Dynamic Quality, here we come! (To-Do: Check what details are given to ensure that we don't cause log spam.)
   
-  static loadTexture(path, repeatNum) {
+  static loadTexture(path) {
     mvRenderUtils = loader.load(path);
     mvRenderUtils.wrapS = THREE.RepeatWrapping;
     mvRenderUtils.wrapT = THREE.RepeatWrapping;
-    mvRenderUtils.repeat.set(repeatNum, repeatNum);
     textures.push(mvRenderUtils);
     
     mvRenderUtils = null; // GC Check
   } // Who said repeat on/off was needed? Not me.
 
+  static repeatTexture(texture, repeatX, repeatY) {
+    texture.repeat.set(repeatX, repeatY);
+  } // Makes things better (Allows us to make programming easier AND harder)
+  
   static loadModel(path) {
     models.push(modelLoader.load(path));
   } // Loads a model
@@ -51,8 +68,8 @@ class RenderUtils {
         child.castShadow = true;
         child.receiveShadow = true;
       }
-    });
-  } // Enables Shadows on the whole scene
+    }); // ThreeJS Power
+  } // Enables Shadows on the whole scene (Super Helpful)
 }
 
 // Exports

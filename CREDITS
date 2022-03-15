@@ -1,6 +1,11 @@
 CREDITS
-==============================
+=======================================
 ThreeJS by ThreeJS Contributors (MIT) (https://threejs.org)
+AmmoJS by AmmoJS Contributors (ZLIB) (https://github.com/kripken/ammo.js)
 Brick 2 by kleenstudios (CC0) (https://opengameart.org/content/brick-2)
-Sun by MysticMike (GPLv2 or Later) (https://opengameart.org/content/sun-0)
+Sun by MysticMike (GPLv2 or Later, unmodified) (https://opengameart.org/content/sun-0)
+========================================
+THANKS TO
+========================================
 StatsJS by Mr. Doob (MIT) (https://github.com/mrdoob/stats.js/blob/master/src/Stats.js) (Referenced Code, not included.)
+========================================

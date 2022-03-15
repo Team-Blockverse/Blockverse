@@ -1,7 +1,7 @@
 // Basically, this is earth. (Base World)
 // ==============================================
 // Imports
-import { CameraHelper, DirectionalLight, HemisphereLight, AmbientLight, FogExp2, PlaneGeometry, BoxGeometry, Mesh, Vector3, BufferGeometry, BoxBufferGeometry, SphereBufferGeometry } from '../../engine/three/three.module.js'
+import { CameraHelper, DirectionalLight, HemisphereLight, AmbientLight, FogExp2, PlaneBufferGeometry, Mesh, Vector3, BufferGeometry, BoxBufferGeometry, SphereBufferGeometry, WebGLCubeRenderTarget, CubeCamera, LinearMipmapLinearFilter } from '../../engine/three/three.module.js'
 import { mergeBufferGeometries } from '../../engine/three/BufferGeometryUtils.js'
 import { Console } from '../../engine/core/console.js'
 import { Water } from '../../engine/materials/Water.js'
@@ -38,7 +38,7 @@ class BaseWorld {
     directionalLight.shadow.camera.right = 20;
     
     // Directional Light Helper
-    //const helper = new CameraHelper( directionalLight.shadow.camera );
+    // const helper = new CameraHelper( directionalLight.shadow.camera );
     //scene.add( helper );
     
     // Now Add it too the scene
@@ -54,22 +54,22 @@ class BaseWorld {
     arealoader.addObject( skylight );
     
     // Setup Skybox
-    let sunGeometry = new PlaneGeometry(60, 60);
+    let sunGeometry = new PlaneBufferGeometry(60, 60);
     let sun = new Mesh(sunGeometry, materials[2]);
     sun.rotation.x = halfPI;
     arealoader.addObject(sun);
 
     scene.background = textures[0]; // Now (draw her) loading the skybox
-
+    
     // Grass Plane
-    let geometry = new PlaneGeometry(1000, 1000);
+    let geometry = new PlaneBufferGeometry(1000, 1000);
     materials[0].roughness = 0.9;
     materials[0].shininess = 0;
     let plane = new Mesh( geometry, materials[0] );
     arealoader.addObject( plane );
 
     // A Brick(TM)
-    let wallGeo = new BoxGeometry(3, 3, 3);
+    let wallGeo = new BoxBufferGeometry(3, 3, 3);
     let brickWall = new Mesh( wallGeo, materials[1] );
     brickWall.rotation.x = halfPI;
     brickWall.position.set(-2.5, 14, 1.5);
@@ -83,7 +83,7 @@ class BaseWorld {
     animate = function() {
       requestAnimationFrame( animate );
       directionalLight.target.updateMatrixWorld();
-      directionalLight.target.position.copy(controls.position()); // This is kinda broken. Too bad!
+      directionalLight.target.position.copy(controls.sunPosition()); // This is kinda broken. Too bad!
       controls.doObjectPositionTick(sun, sunPos.x, sunPos.y, sunPos.z); // Sun Texture moves!
       controls.doControlsTick();
       controls.doObjectPositionTick(directionalLight, sunPos.x, sunPos.y, sunPos.z); // Sun Light moves!

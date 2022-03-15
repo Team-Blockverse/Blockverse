@@ -15,10 +15,13 @@
     <link href="./engine/core/main.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    <div id='loadcontrols'>Click to Play</div>
+    <div id='loadcontrols' class='loadingbackground'>
+      <div class='loading'></div>
+      Click To Play
+    </div>
     <div id='neondebug' style='display: none;'></div>
     <canvas id='primary'></canvas>
     <canvas id='offscreen' height='1024' width='1024'></canvas>
-    <script type="module" src="./game/main.js"></script>
+    <script type="module" src="./game/game.js"></script>
   </body>
 </html>

@@ -7,6 +7,18 @@ body {
   padding: 0%;
 }
 
+/* CSS Animations */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}  
+
+
 /* Class Based CSS Rules*/
 .consolemsg {
   position: absolute;
@@ -24,11 +36,35 @@ body {
 
 .yellow {
   color: yellow;
-}
+} /* Warning Color Console */
 
 .red {
   color: red;
-}
+} /* Error Color Console */
+
+.loading {
+  position: absolute;
+  top: 85vh;
+  border: 8px solid #121212;
+  border-radius: 100%;
+  border-top: 8px solid #006eff;
+  border-bottom: 8px solid #006eff;
+  width: 10vh;
+  height: 10vh;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+} /* Loading Spinner */
+
+.loadingbackground {
+  display: block;
+  background: #121212;
+  color: white;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+} /* Loading Background for Body */
 
 /* ID Based CSS Rules*/
 #neondebug {
@@ -46,17 +82,6 @@ body {
   font-family: monospace;
   font-size: 14px;
   z-index: 99;
-}
-
-#loadcontrols {
-  display: block;
-  background: rgba(20, 20, 20, 0.5);
-  color: white;
-  text-align: center;
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  z-index: 999;
 }
 
 #primary {

@@ -54,8 +54,12 @@ class Controls {
     object.position.set(ox + position.x, oy + position.y, oz + position.z); // We don't save variables lol
   } // Makes an objects position lerp with the camera (To-Do: Find the sun)
 
+  sunPosition() {
+    return new Vector3(position.x, position.y + 10, 0);
+  }
+
   position() {
-    return position;
+    return new Vector3(position.x, position.y, position.z);
   }
   
   // Internal Key Managers
