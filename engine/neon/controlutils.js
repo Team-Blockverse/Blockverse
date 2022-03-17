@@ -1,5 +1,5 @@
 // Internal Imports
-import { Vector3, Quaternion } from '../three/three.module.js'
+import { Vector3, Quaternion } from '/engine/three/three.module.js'
 
 // Internal Things
 const prejoin = document.getElementById( 'loadcontrols' );

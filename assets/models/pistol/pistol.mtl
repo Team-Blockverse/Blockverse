@@ -1,0 +1,15 @@
+# Blender 3.1.0 MTL File: 'pistol.blend'
+# www.blender.org
+# Edited Painstakingly by MicrolemurDev
+
+newmtl teksutra
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+
+map_Kd /assets/models/pistol/diffuse.png
+map_Ks /assets/models/pistol/specular.png
+
+illum illum_3

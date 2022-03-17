@@ -1,7 +1,8 @@
 // Default Settings
 let defaultMaterial = 'standard';
 let antialiasing = true; // Helpful to not do post processing with internal Anti-Aliasing (Or so the ThreeJS Manual/Docs say)
-let upscaleAmount = 2; // Max is 2
+let upscaleAmount = 1; // Max is 2
+let reflectionMode = 'perFrame'; // Modes: (SSR, perFrame, everyOtherFrame, skyOnly) (Unimplemented)
 
 // Settings Tool to Bypass Module Issues
 function changeSetting(setting, mode) {
@@ -16,6 +17,10 @@ function changeSetting(setting, mode) {
 
     case "upscaleResolution":
       upscaleAmount = mode;
+      break;
+  
+    case "reflectionMode":
+      reflectionMode = mode;
       break;
       
     default:

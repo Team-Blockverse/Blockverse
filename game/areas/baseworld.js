@@ -1,18 +1,14 @@
 // Basically, this is earth. (Base World)
 // ==============================================
 // Imports
-import { CameraHelper, DirectionalLight, HemisphereLight, AmbientLight, FogExp2, PlaneBufferGeometry, Mesh, Vector3, BufferGeometry, BoxBufferGeometry, SphereBufferGeometry, WebGLCubeRenderTarget, CubeCamera, LinearMipmapLinearFilter } from '../../engine/three/three.module.js'
-import { mergeBufferGeometries } from '../../engine/three/BufferGeometryUtils.js'
-import { Console } from '../../engine/core/console.js'
-import { Water } from '../../engine/materials/Water.js'
-import { RenderUtils, textures, materials, models } from '../../engine/neon/renderutils.js'
+import { CameraHelper, DirectionalLight, HemisphereLight, AmbientLight, FogExp2, PlaneBufferGeometry, Mesh, Vector3, BufferGeometry, BoxBufferGeometry, SphereBufferGeometry, WebGLCubeRenderTarget, CubeCamera, LinearMipmapLinearFilter } from '/engine/three/three.module.js'
+import { mergeBufferGeometries } from '/engine/three/BufferGeometryUtils.js'
+import { Water } from '/engine/materials/Water.js'
+import { RenderUtils, textures, materials, models } from '/engine/neon/renderutils.js'
 
 // Constants
 const sunPos = new Vector3(0, 100, 50); // OG Sun Position
 const halfPI = Math.PI / 2;
-
-// Bind Console
-console = Console;
 
 // Animation Loop
 let animate = function() { }
@@ -28,8 +24,9 @@ class BaseWorld {
     directionalLight.castShadow = true;
     
     //Set up shadow properties for the Sun
-    directionalLight.shadow.mapSize.width = 1024; 
-    directionalLight.shadow.mapSize.height = 1024; 
+    directionalLight.shadow.radius = 2;
+    directionalLight.shadow.mapSize.width = 2048; 
+    directionalLight.shadow.mapSize.height = 2048; 
     directionalLight.shadow.camera.near = 0.5; 
     directionalLight.shadow.camera.far = 500;
     directionalLight.shadow.camera.top = 20;
@@ -65,6 +62,7 @@ class BaseWorld {
     let geometry = new PlaneBufferGeometry(1000, 1000);
     materials[0].roughness = 0.9;
     materials[0].shininess = 0;
+    materials[0].normalMap = undefined; // Temp Fix for Shadows
     let plane = new Mesh( geometry, materials[0] );
     arealoader.addObject( plane );
 
@@ -75,6 +73,13 @@ class BaseWorld {
     brickWall.position.set(-2.5, 14, 1.5);
     arealoader.addObject( brickWall );
 
+    // Test Gun
+    let gun = models[0];
+    gun.rotation.x = Math.PI;
+    gun.rotation.z = halfPI;
+    gun.position.set(0, 0, 1);
+    arealoader.addObject( gun );
+    
     // Camera Setup
     camera.position.z = 2;
     camera.rotation.x = halfPI;
@@ -83,7 +88,7 @@ class BaseWorld {
     animate = function() {
       requestAnimationFrame( animate );
       directionalLight.target.updateMatrixWorld();
-      directionalLight.target.position.copy(controls.sunPosition()); // This is kinda broken. Too bad!
+      directionalLight.target.position.copy(controls.sunPosition()); // This is kinda broken. (TO-DO: Replace with better Shadow Map Technology)
       controls.doObjectPositionTick(sun, sunPos.x, sunPos.y, sunPos.z); // Sun Texture moves!
       controls.doControlsTick();
       controls.doObjectPositionTick(directionalLight, sunPos.x, sunPos.y, sunPos.z); // Sun Light moves!
